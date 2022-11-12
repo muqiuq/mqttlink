@@ -1,0 +1,23 @@
+name: mqttlink
+version: 1.0
+author: Philipp Albrecht
+api-version: 1.18
+main: ch.uisa.minecraft.mqttlink.Main
+
+commands:
+  mqttlink:
+    description: Edit MQTT links
+    usage: /mqttlink [topic] [upValue] ([downValue])
+    permission: mqttlink.basic
+  mqttlist:
+    description: list mqtt links
+    usage: /mqttlist
+    permission: mqttlink.basic
+  mqttdel:
+    description: list mqtt links
+    usage: /mqttdel [id]
+    permission: mqttlink.basic
+  mqttedit:
+    description: list mqtt links
+    usage: /mqttedit [id] [key] [value]
+    permission: mqttlink.basic
