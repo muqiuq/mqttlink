@@ -16,8 +16,6 @@ import java.util.logging.Logger;
 
 public class Main extends JavaPlugin {
 
-
-
     private Logger logger;
 
     @Override
@@ -66,6 +64,11 @@ public class Main extends JavaPlugin {
         Global.mqtt.addHandler((topic, message) -> {
             Global.mqttInboundEventHandler.triggerEvent(topic, message.toString());
         });
+
+        Global.onlinePlayers = new OnlinePlayers();
+
+        Global.notifyStateThread = new NotifyStateThread(Global.mqtt, Global.executor, Global.onlinePlayers);
+
     }
 
     @Override
@@ -80,6 +83,11 @@ public class Main extends JavaPlugin {
             Global.linkedBlocks.write();
         } catch (IOException e) {
             logger.log(Level.SEVERE, "", e);
+        }
+        try{
+            Global.executor.shutdown();
+        }catch(Exception e) {
+            logger.log(Level.FINER, "", e);
         }
     }
 

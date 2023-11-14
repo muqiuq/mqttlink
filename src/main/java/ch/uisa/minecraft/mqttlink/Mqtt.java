@@ -3,11 +3,12 @@ package ch.uisa.minecraft.mqttlink;
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Mqtt implements MqttCallback {
+public class Mqtt implements MqttCallback, SendMessageHandler {
 
     int qos             = 2;
     String broker       = "tcp://host:1883";
@@ -35,7 +36,7 @@ public class Mqtt implements MqttCallback {
         MqttMessage message = new MqttMessage(content.getBytes());
         message.setQos(qos);
         client.publish(topic, message);
-        logger.info(topic + " = " + message);
+        logger.fine(topic + " = " + message);
     }
 
 //    public void sendEventMessage(String topic, String content) throws MqttException {
@@ -117,5 +118,14 @@ public class Mqtt implements MqttCallback {
     @Override
     public void deliveryComplete(IMqttDeliveryToken token) {
 
+    }
+
+    @Override
+    public void sendMsg(String topic, String message) throws IOException {
+        try {
+            sendMessage(topic, message);
+        }catch(Exception e) {
+            throw new IOException("", e);
+        }
     }
 }

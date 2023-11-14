@@ -1,5 +1,6 @@
 package ch.uisa.minecraft.mqttlink.events;
 
+import ch.uisa.minecraft.mqttlink.Global;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -20,6 +21,7 @@ public class OnPlayerQuitEvent extends OnPlayerEvent implements Listener {
     @EventHandler(priority = EventPriority.LOW)
     public void onPlayerQuitEvent(PlayerQuitEvent playerQuitEvent) throws MqttException {
         sendMqttEvent(ReservedEvents.PLAYER_QUIT, playerQuitEvent.getPlayer());
+        Global.onlinePlayers.playerVentOffline(playerQuitEvent.getPlayer());
     }
 
 }
